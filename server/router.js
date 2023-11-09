@@ -1,9 +1,16 @@
 const router = require('express').Router();
-const controller = require('./controllers/dataController');
+const weatherController = require('./controllers/weatherController');
+const poetryController = require('./controllers/poetryController');
 
 // GET
 // Weather info + random poem
-router.get('/', controller.getData); 
+//router.get('/', controller.getData); 
+
+router.get('/weather/:id', weatherController.getWeather);
+
+router.get('/poetry', poetryController.getPoetry);
+//router.get('/poetry', poetryController.getPoetryByWeather);
+
 
 // ! For future:
 // POST
