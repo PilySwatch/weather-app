@@ -7,9 +7,11 @@ async function getWeather(req, res) {
   try {
     // Fetch weather info
     //const city = req.params.city || 'Berlin'; // access the city parameter using query string, or set default value to Berlin if city not provided
-    const city = req.query.city || 'Berlin'; // access the city parameter using query string, or set default value to Berlin if city not provided
-    const country = req.query.country || 'DE'; // access the country parameter using query string, or set default value to Germany (DE) if country not provided
-
+    const city = req.params.city || 'Berlin'; // access the city parameter using query string, or set default value to Berlin if city not provided
+    const country = req.params.country || 'DE'; // access the country parameter using query string, or set default value to Germany (DE) if country not provided
+    console.log(city)
+    console.log(country)
+    console.log(req.params)
 
     if (!city) {
       return res.status(400).json({ message: 'City parameter is required' });

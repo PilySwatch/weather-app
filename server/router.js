@@ -6,7 +6,7 @@ const poetryController = require('./controllers/poetryController');
 // Weather info + random poem
 //router.get('/', controller.getData); 
 
-router.get('/weather/:id', weatherController.getWeather);
+router.get('/weather/:city/:country', weatherController.getWeather);
 
 router.get('/poetry', poetryController.getPoetry);
 //router.get('/poetry', poetryController.getPoetryByWeather);
