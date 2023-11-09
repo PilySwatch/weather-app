@@ -1,0 +1,16 @@
+.card {
+  margin-top: 20px;
+  padding: 20px;
+  height: 100px;
+  background-color: var(--grey_2);
+}
+
+.top-elements {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bottom-elements {
+  
+}

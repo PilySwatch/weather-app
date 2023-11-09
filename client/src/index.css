@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
+
+:root {
+  --blue_1: rgb(80,131,168);
+  --grey_1: rgb(52,58,64);
+  --grey_2: rgb(182,185,188);
+}
+
+body {
+  margin: 0;
+  padding: 0; 
+  display: flex;
+  justify-content: center;
+}
+
+* {
+  color: #fff;
+  margin: 0;
+}
+
+button {
+  border: 0;
+  padding: 8px;
+  border-radius: 4px;
+  color: white;
+  background: var(--blue_1);
+  cursor: pointer;
+}

@@ -1,0 +1,40 @@
+.App {
+  height: 100vh;
+  width: 600px;
+  padding: 20px;
+  background-color: var(--grey_1);
+  /* display: flex;
+  flex-direction: column;
+  justify-content:center;
+  align-items: center; */
+}
+
+
+
+/* .main {
+  height:100vh;
+  width: 50%;
+  padding: 30px;
+  background: var(--secondary);
+  border: 5px solid red; 
+} */
+
+
+
+
+nav {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.myLocation {
+  padding-right: 10px;
+}
+
+
+
+
+
