@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 
 function App() {
   const [city, setCity] = useState('Berlin');
+  const [unit, setUnit] = useState('metric')
   const [weather, setWeather] = useState(null);
 
   useEffect(() => {
@@ -46,7 +47,7 @@ function App() {
       {weather && (
         <div>
           <TimeAndLocation weather ={ weather }/>
-          <TemperatureAndDetails weather ={ weather } />
+          <TemperatureAndDetails weather ={ weather } unit={ unit } setUnit={setUnit}/>
         </div>
       )}
        

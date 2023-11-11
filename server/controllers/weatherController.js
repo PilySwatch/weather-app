@@ -1,6 +1,6 @@
 const openWeatherMap = require('../models/weatherData'); 
 
-// TODO: Clean code - Any of the functions before getWeatherData is worth it
+// TODO: Clean code - Any of the functions before getWeatherData aren't worth it
 
 // ----------- Format weather response from API
 // The response is a nested object so we want to transform it into an object
@@ -29,14 +29,16 @@ const formatWeatherResponse = (data) => {
 const getFormattedWeatherData = async (searchParams) => {
   try {
     const url = new URL(`${openWeatherMap.BASE_URL}/weather`);
-    url.search = new URLSearchParams({ ...searchParams, appid: openWeatherMap.API_KEY }); 
+    url.search = new URLSearchParams({...searchParams, appid: openWeatherMap.API_KEY}); 
     /* in simpler terms, this last line above is preparing the URL for the API request by 
     taking existing query parameters (searchParams -> {q: 'Berlin'}) and adding the appid 
     parameter with the OpenWeatherMap API key (openWeatherMap.API_KEY) */
-    
+    //console.log(searchParams)
+
+
     const response = await fetch(url);
     const weatherData = await response.json();
-    console.log(weatherData)
+    //console.log(weatherData)
 
     const formatWeatherResponse = (data) => {
       const {

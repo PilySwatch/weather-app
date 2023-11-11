@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const weatherController = require('./controllers/weatherController');
-const poetryController = require('./controllers/poetryController');
+//const poetryController = require('./controllers/poetryController');
 
 // GET
 // Weather info + random poem

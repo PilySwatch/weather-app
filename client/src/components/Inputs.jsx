@@ -11,7 +11,7 @@ export default function Inputs(
    const [cityName, setCityName] = useState("");
 
   const handleSearchClick = () => {
-    if (cityName !== '') setCity({q: cityName})
+    if (cityName !== '') setCity(cityName)
   }
 
 //     // TODO: if the name of the city is not correct, do nothing or send message from the input
@@ -31,7 +31,7 @@ export default function Inputs(
       <div className="flex flex-row w-3/4 items-center justify-center space-x-0">
         <input 
         value={cityName}
-        onChange={(e) => setCity(e.currentTarget.value)}
+        onChange={(e) => setCityName(e.currentTarget.value)}
         type="text" 
         placeholder="Search for city..."
         className="text-xl font-light p-2 w-full shadow-xl focus:outline-none capitalize placeholder:lowercase"
@@ -41,7 +41,7 @@ export default function Inputs(
           <UilSearch 
           size={25} 
           className="text-white cursor-pointer transition ease-out hover:scale-125"
-          // onClick={handleSearchClick}
+          onClick={handleSearchClick}
           />
         </div>
         {/* <UilMapMarker  
