@@ -1,39 +1,84 @@
-const axios = require('axios');
-const openWeatherMap = require('../models/weatherData');
+const openWeatherMap = require('../models/weatherData'); 
 
+// TODO: Clean code - Any of the functions before getWeatherData is worth it
 
-// GET - ALL Weather info
+// ----------- Format weather response from API
+// The response is a nested object so we want to transform it into an object
+// with only the values we need for our front
+const formatWeatherResponse = (data) => {
+  const {
+    coord: { lat, lon },
+    main: { temp, feels_like, temp_min, temp_max, humidity },
+    name,
+    dt,
+    timezone,
+    sys: { country, sunrise, sunset },
+    weather,
+    wind: { speed }
+  } = data;
+
+  const { main: details, description, icon } = weather[0];
+
+  return {
+    lat, lon, temp, feels_like, temp_min, temp_max, humidity,
+    name, dt, timezone, country, sunrise, sunset, details, description, icon, speed
+  };
+};
+
+// -----------  Fetch weather data from the API and format the response with the function above: formatWeatherResponse()
+const getFormattedWeatherData = async (searchParams) => {
+  try {
+    const url = new URL(`${openWeatherMap.BASE_URL}/weather`);
+    url.search = new URLSearchParams({ ...searchParams, appid: openWeatherMap.API_KEY }); 
+    /* in simpler terms, this last line above is preparing the URL for the API request by 
+    taking existing query parameters (searchParams -> {q: 'Berlin'}) and adding the appid 
+    parameter with the OpenWeatherMap API key (openWeatherMap.API_KEY) */
+    
+    const response = await fetch(url);
+    const weatherData = await response.json();
+    console.log(weatherData)
+
+    const formatWeatherResponse = (data) => {
+      const {
+        coord: { lat, lon },
+        main: { temp, feels_like, temp_min, temp_max, humidity },
+        name,
+        dt,
+        timezone,
+        sys: { country, sunrise, sunset },
+        weather,
+        wind: { speed }
+      } = data;
+    
+      const { main: details, description, icon } = weather[0];
+    
+      return {
+        lat, lon, temp, feels_like, temp_min, temp_max, humidity,
+        name, dt, timezone, country, sunrise, sunset, details, description, icon, speed
+      };
+    };
+
+    // return formatWeatherResponse(weatherData);
+    return weatherData;
+  } catch (error) {
+    console.error('Error fetching weather data:', error);
+    throw new Error('Unable to fetch weather data');
+  }
+};
+
+// -----------  GET - build get endpoint based on the functions above
 async function getWeatherData(req, res) {
   try {
-    // Fetch weather info
-    const city = req.params.city || 'Berlin'; // access the city parameter using query string, or set default value to Berlin if city not provided
-    const country = req.params.country || 'DE'; // access the country parameter using query string, or set default value to Germany (DE) if country not provided
-    console.log(city)
-    console.log(country)
-    console.log(req.params)
-    if (!city) {
-      return res.status(400).json({ message: 'City parameter is required' });
-    }
+    const city = req.query.city || 'Berlin'; // set Berlin as default value if no city is passed
+    const searchParams = { q: city };
 
-    const response = await axios.get(openWeatherMap.BASE_URL, {
-      params: {
-        //q: city,
-        q: `${city},${country}`,
-        appid: openWeatherMap.API_KEY,
-        units: 'metric'
-      }
-    });
-
-    console.log(response)
-
-    // const weatherData = weatherResponse.data;
-    res.status(200).json(response.data);
+    const formattedWeatherData = await getFormattedWeatherData(searchParams);
+    res.json(formattedWeatherData);
 
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Unable to fetch data, please try again' });
+    res.status(500).json({ error: 'Unable to fetch weather data, please try again' });
   }
 }
-
 
 module.exports = { getWeatherData };
