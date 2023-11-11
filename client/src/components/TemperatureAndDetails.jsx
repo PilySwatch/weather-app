@@ -11,24 +11,23 @@ import {
 import { formatToLocalTime, iconUrlFromCode } from "../utils/helperFunctions";
 
 export default function TemperatureAndDetails(
-  { weather }
-  // {weather, units}
+  { weather, units }
   ) {
 
   // Format weather description color
-  // const formatWeatherDescription = () => {
-  //   if (!weather) return 'text-slate-100';
-  //   const threshold = units === 'metric' ? 20 : 60
-  //   if (weather.temp <= threshold) return 'text-cyan-300';
+  const formatWeatherDescription = () => {
+    if (!weather) return 'text-slate-100';
+    const threshold = units === 'metric' ? 20 : 60
+    if (weather.main.temp <= threshold) return 'text-cyan-300';
 
-  //   return 'text-orange-200';
-  // }
+    return 'text-orange-200';
+  }
 
 
 
   return (
     <div>
-      <div className={`flex items-center justify-center py-6 text-xl text-cyan-300`}>
+      <div className={`flex items-center justify-center py-6 text-xl ${formatWeatherDescription()}`}>
         <p> { weather.weather[0].main } - { weather.weather[0].description } </p>
       </div>
 
@@ -36,13 +35,13 @@ export default function TemperatureAndDetails(
       <div className="flex items-center justify-between text-white py-3">
         <img src={ iconUrlFromCode(weather.weather[0].icon) } alt="" className="w-30"/>
 
-        <p className="text-5xl">{ weather.main.temp.toFixed() }º</p>
+        <p className="text-5xl">{ weather.main.temp.toFixed() }ºC</p>
 
         <div className="flex flex-col space-y-2">
           <div className="flex font-light text-sm items-center justify-start">
             <UilTemperature size={18} className="mr-1" />
             Real feel:
-            <span className="font-medium ml-1">{ weather.main.feels_like.toFixed()}º</span>
+            <span className="font-medium ml-1">{ weather.main.feels_like.toFixed()}ºC</span>
           </div>
 
           <div className="flex font-light text-sm items-center justify-center">
@@ -74,13 +73,13 @@ export default function TemperatureAndDetails(
 
         <UilArrowUp />
         <p className="font-light">
-          High: <span className="font-medium ml-1">{ weather.main.temp_max.toFixed() }º</span>
+          High: <span className="font-medium ml-1">{ weather.main.temp_max.toFixed() }ºC</span>
         </p>
         <p className="font-light">|</p>
 
         <UilArrowDown />
         <p className="font-light">
-          Low: <span className="font-medium ml-1">{ weather.main.temp_min.toFixed() }º</span>
+          Low: <span className="font-medium ml-1">{ weather.main.temp_min.toFixed() }ºC</span>
         </p>
       </div>
 

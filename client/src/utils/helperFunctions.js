@@ -1,5 +1,6 @@
 const { DateTime } = require('luxon');
 
+// TODO: add UTC to the timestamp format
 // to format timestamp
 const formatToLocalTime = (secs, format = "cccc, dd LLL yyyy' | Local time: 'hh:mm a") =>
   DateTime.fromSeconds(secs).toFormat(format);

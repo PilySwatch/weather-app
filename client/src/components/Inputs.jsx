@@ -1,12 +1,9 @@
 import { React, useState } from "react";
-import { UilSearch,
-  //  UilMapMarker 
-  } from '@iconscout/react-unicons'
+import { UilSearch } from '@iconscout/react-unicons';
   
 
 export default function Inputs(
-  {setCity}
-  // {setQuery, units, setUnits}
+  {setCity, units, setUnits}
   ) {
    const [cityName, setCityName] = useState("");
 
@@ -14,16 +11,18 @@ export default function Inputs(
     if (cityName !== '') setCity(cityName)
   }
 
-//     // TODO: if the name of the city is not correct, do nothing or send message from the input
-//     // TODO: after searching for a city, remove input
-//     // TODO: sometimes we need to include the country code to show the correct city --> example: Rome, IT 
-//   }
+    // TODO: if the name of the city is not correct, do nothing or send message from the input
+    // TODO: after searching for a city, remove input
+    // TODO: sometimes we need to include the country code to show the correct city --> example: Rome, IT 
 
-//   const handleUnitChange = (e) => {
-//     const selectedUnit = e.currentTarget.name;
-//     if (units !== selectedUnit) setUnits(selectedUnit);
-//     // TODO: add ºC and ºF after the number
-//     // TODO: check values when ºF, they are different compare to ºC
+
+  // TODO: find the way to render also ºF - if not, remove the buttons from Inputs component
+  // const handleUnitChange = (e) => {
+  //   const selectedUnit = e.currentTarget.name;
+  //   if (units !== selectedUnit) setUnits(selectedUnit);
+  // }
+    // TODO: add ºC and ºF after the number
+    // TODO: check values when ºF, they are different compare to ºC
 
   return (
     <div className="flex flex-row justify-center my-6">
@@ -44,17 +43,13 @@ export default function Inputs(
           onClick={handleSearchClick}
           />
         </div>
-        {/* <UilMapMarker  
-        size={25} 
-        className="text-white cursor-pointer transition ease-out hover:scale-125"
-        /> */}
       </div>
       
-      <div className="flex flex-row w-1/4 items-center justify-center">
+      {/* <div className="flex flex-row w-1/4 items-center justify-center">
         <button 
         name="metric" 
         className="text-xl text-white font-light transition ease-out hover:scale-125"
-        // onClick={handleUnitChange}
+        onClick={handleUnitChange}
         >ºC</button>
 
         <p className="text-xl text-white mx-1">|</p>
@@ -62,9 +57,9 @@ export default function Inputs(
         <button 
         name="imperial" 
         className="text-xl text-white font-light transition ease-out hover:scale-125"
-        // onClick={handleUnitChange}
+        onClick={handleUnitChange}
         >ºF</button>
-      </div>
+      </div> */}
 
     </div>
 

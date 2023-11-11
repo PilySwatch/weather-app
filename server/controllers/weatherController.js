@@ -29,11 +29,12 @@ const formatWeatherResponse = (data) => {
 const getFormattedWeatherData = async (searchParams) => {
   try {
     const url = new URL(`${openWeatherMap.BASE_URL}/weather`);
-    url.search = new URLSearchParams({...searchParams, appid: openWeatherMap.API_KEY}); 
+    url.search = new URLSearchParams({...searchParams, appid: openWeatherMap.API_KEY,units:'metric'}); 
     /* in simpler terms, this last line above is preparing the URL for the API request by 
     taking existing query parameters (searchParams -> {q: 'Berlin'}) and adding the appid 
     parameter with the OpenWeatherMap API key (openWeatherMap.API_KEY) */
-    //console.log(searchParams)
+    
+    //console.log(url.search)
 
 
     const response = await fetch(url);
