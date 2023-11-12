@@ -1,1 +1,4 @@
 .vscode
+
+# any file that starts with "test"
+test* 
