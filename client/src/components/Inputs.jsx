@@ -2,14 +2,28 @@ import { React, useState } from "react";
 import { UilSearch } from '@iconscout/react-unicons';
   
 
+// mock data - city searchs
+// const suggestions = ["Dublin,IE", "Rome,IT", "Beijing,CN", "Copenhagen,DK", "Riga,LV", "Astana,KZ"];
+
+
 export default function Inputs(
   {setCity, units, setUnits}
   ) {
    const [cityName, setCityName] = useState("");
+  //  const [showSuggestions, setShowSuggestions] = useState(false);
 
   const handleSearchClick = () => {
-    if (cityName !== '') setCity(cityName)
+    if (cityName !== '') {
+      setCity(cityName);
+      setCityName(""); // reset the cityName to clear the input field
+      // setShowSuggestions(false) // hide suggestions after selecting city
+    }
   }
+
+  // const handleSuggestionClick = (suggestion) => {
+  //   setCityName(suggestion);
+  //   setShowSuggestions(false);
+  // }
 
     // TODO: if the name of the city is not correct, do nothing or send message from the input
     // TODO: after searching for a city, remove input
@@ -44,6 +58,24 @@ export default function Inputs(
           />
         </div>
       </div>
+
+      {/* {showSuggestions && (
+        <div className="suggestion-block">
+          {suggestions
+            .filter((suggestion) => suggestion.toLowerCase().includes(cityName.toLowerCase()))
+            .map((suggestion) => (
+              <div
+                key={suggestion}
+                className="suggestion-item"
+                onClick={() => handleSuggestionClick(suggestion)}
+              >
+                {suggestion}
+              </div>
+            ))}
+        </div>
+      )} */}
+
+
       
       {/* <div className="flex flex-row w-1/4 items-center justify-center">
         <button 

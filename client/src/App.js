@@ -29,7 +29,7 @@ function App() {
 
         const data = await response.json();
         setWeather(data);
-        getPoetryData(data.weather[0].description); // Use weather.weather[0].main as the keyword
+        getPoetryData(data.weather[0].description); // use weather.weather[0].main as the keyword
 
       } catch (error) {
         console.error('Error fetching weather data:', error.message);
@@ -44,28 +44,32 @@ function App() {
   // ---------- Fetch poetry data
   const getPoetryData = async (keyword) => {
     try {
-      const response = await fetch(`https://poetrydb.org/lines,poemcount/[${keyword}];20`);
-  
+      // extract the second word from the keyword
+      const [, secondWord] = keyword.split(' ');
+      console.log(secondWord)
+
+      const response = await fetch(`https://poetrydb.org/lines,random/[${secondWord}];5`);
+
       if (!response.ok) {
         throw new Error(`Error: ${response.statusText}`);
       }
-  
+
       const data = await response.json();
-  
+
       if (data && data.length > 0) {
-        // Find the poem with the most occurrences of the keyword
+        // find the poem with the most occurrences of the keyword
         let maxOccurrences = 0;
         let selectedPoem = null;
-  
+
         data.forEach((poem) => {
-          const occurrences = (poem.lines.join(' ').match(new RegExp(keyword, 'gi')) || []).length;
-  
+          const occurrences = (poem.lines.join(' ').match(new RegExp(secondWord, 'gi')) || []).length;
+
           if (occurrences > maxOccurrences) {
             maxOccurrences = occurrences;
             selectedPoem = poem;
           }
         });
-  
+
         if (selectedPoem) {
           setPoemData({
             title: selectedPoem.title,
@@ -79,6 +83,7 @@ function App() {
     }
   };
 
+
   // ----------  Format background color
   const formatBackground = () => {
     if (!weather) return 'from-sky-200 via-sky-600 to-sky-900';
@@ -90,7 +95,7 @@ function App() {
 
 
   return (
-    <div className={`mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}>
+    <div className={`mx-auto max-w-screen-md mt-4 py-5 px-28 bg-gradient-to-br h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}>
       <div className='flex flex-row items-center justify-center py-3'>
         <img src={require("./nimbus.png")} alt="logo" className="w-14 text-white"/>
         <h1 className=" text-white text-3xl font-medium text-decoration-line: underline underline-offset-8 ">NimbusCast</h1>

@@ -15,7 +15,7 @@ export default function WeatherPoem({ title, author, lines}) {
       </div>
       <hr className="my-2"/>
       
-      <div className="max-w-2xl mx-auto my-4 p-4 bg-opacity-100 bg-white shadow-xl">
+      <div className="max-w-md mx-auto my-4 p-4 bg-opacity-100 bg-white shadow-xl">
         <p className="text-gray-500 text-xl font-medium">{title}</p>
         <p className="text-gray-500 text-l font-medium mb-4 pb-2">{`— by ${author}`}</p>
         <p className="text-gray-700 italic text-medium font-light">
