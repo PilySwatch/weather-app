@@ -6,6 +6,7 @@ import TimeAndLocation from './components/TimeAndLocation';
 import TemperatureAndDetails from './components/TemperatureAndDetails';
 //import getWeatherData from './services/weatherService';
 import { useState, useEffect } from 'react';
+import WeatherPoem from './components/WeatherPoem';
 
 function App() {
   const [city, setCity] = useState('Berlin');
@@ -44,6 +45,31 @@ function App() {
     return 'from-amber-200 via-orange-700 to-rose-900';
   }
 
+
+  // Weather Poem - Mock data
+  const poemData = {
+    title: "A Song of Autumn",
+    author: "Adam Lindsay Gordon",
+    lines: [
+      "‘WHERE shall we go for our garlands glad",
+      "At the falling of the year,",
+      "When the burnt-up banks are yellow and sad,",
+      "When the boughs are yellow and sere?",
+      "Where are the old ones that once we had,",
+      "And when are the new ones near?",
+      "What shall we do for our garlands glad",
+      "At the falling of the year?’",
+      "‘Child! can I tell where the garlands go?",
+      "Can I say where the lost leaves veer",
+      "On the brown-burnt banks, when the wild winds blow,",
+      "When they drift through the dead-wood drear?",
+      "Girl! when the garlands of next year glow,",
+      "You may gather again, my dear—",
+      "But I go where the last year’s lost leaves go",
+      "At the falling of the year.’"
+    ]
+  };
+
   return (
     <div className={`mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}>
       <div className='flex flex-row items-center justify-center py-3'>
@@ -57,6 +83,8 @@ function App() {
         <div>
           <TimeAndLocation weather ={weather} />
           <TemperatureAndDetails weather={weather} units={units} />
+
+          <WeatherPoem {...poemData}/>
         </div>
       )}
        
