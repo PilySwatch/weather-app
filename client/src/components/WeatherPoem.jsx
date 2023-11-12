@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import { UilAngleDown, UilAngleUp } from '@iconscout/react-unicons';
 
-export default function WeatherPoem({ title, author, lines }) {
+export default function WeatherPoem({ title, author, lines}) {
 
   const [expanded, setExpanded] = useState(false);
   const visibleLines = expanded ? lines : lines.slice(0, 5);
+
 
 
   return (
@@ -31,7 +32,7 @@ export default function WeatherPoem({ title, author, lines }) {
             ))}
         </p>
         {lines.length > 5 && (
-          <div className="mt-2"> {/* Add margin between the poem and the button */}
+          <div className="mt-2"> 
               <hr className="my-2 border-gray-300"/>
               <button
                   className="bg-gray-700 px-3 py-3 rounded-full focus:outline-none"
@@ -50,7 +51,5 @@ export default function WeatherPoem({ title, author, lines }) {
       </div>
 
     </div>
-
-
   );
-}
+};

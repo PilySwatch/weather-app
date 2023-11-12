@@ -12,9 +12,12 @@ function App() {
   const [city, setCity] = useState('Berlin');
   const [units, setUnits] = useState('metric')
   const [weather, setWeather] = useState(null);
+  const [poemData, setPoemData] = useState(null);
 
   // TODO: clean this function and move it to another file (ex: services/weatherService)
   // TODO: find the way to render also ºF - if not, remove the buttons from Inputs component
+
+  // ---------- Fetch weather data
   useEffect(() => {
     const getWeatherData = async () => {
       try {
@@ -26,6 +29,7 @@ function App() {
 
         const data = await response.json();
         setWeather(data);
+        getPoetryData(data.weather[0].description); // Use weather.weather[0].main as the keyword
 
       } catch (error) {
         console.error('Error fetching weather data:', error.message);
@@ -36,7 +40,46 @@ function App() {
 
   }, [city, units]);
 
-  // Format background color
+
+  // ---------- Fetch poetry data
+  const getPoetryData = async (keyword) => {
+    try {
+      const response = await fetch(`https://poetrydb.org/lines,poemcount/[${keyword}];20`);
+  
+      if (!response.ok) {
+        throw new Error(`Error: ${response.statusText}`);
+      }
+  
+      const data = await response.json();
+  
+      if (data && data.length > 0) {
+        // Find the poem with the most occurrences of the keyword
+        let maxOccurrences = 0;
+        let selectedPoem = null;
+  
+        data.forEach((poem) => {
+          const occurrences = (poem.lines.join(' ').match(new RegExp(keyword, 'gi')) || []).length;
+  
+          if (occurrences > maxOccurrences) {
+            maxOccurrences = occurrences;
+            selectedPoem = poem;
+          }
+        });
+  
+        if (selectedPoem) {
+          setPoemData({
+            title: selectedPoem.title,
+            author: selectedPoem.author,
+            lines: selectedPoem.lines,
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching poetry data:', error.message);
+    }
+  };
+
+  // ----------  Format background color
   const formatBackground = () => {
     if (!weather) return 'from-sky-200 via-sky-600 to-sky-900';
     const threshold = units === 'metric' ? 20 : 60
@@ -45,30 +88,6 @@ function App() {
     return 'from-amber-200 via-orange-700 to-rose-900';
   }
 
-
-  // Weather Poem - Mock data
-  const poemData = {
-    title: "A Song of Autumn",
-    author: "Adam Lindsay Gordon",
-    lines: [
-      "‘WHERE shall we go for our garlands glad",
-      "At the falling of the year,",
-      "When the burnt-up banks are yellow and sad,",
-      "When the boughs are yellow and sere?",
-      "Where are the old ones that once we had,",
-      "And when are the new ones near?",
-      "What shall we do for our garlands glad",
-      "At the falling of the year?’",
-      "‘Child! can I tell where the garlands go?",
-      "Can I say where the lost leaves veer",
-      "On the brown-burnt banks, when the wild winds blow,",
-      "When they drift through the dead-wood drear?",
-      "Girl! when the garlands of next year glow,",
-      "You may gather again, my dear—",
-      "But I go where the last year’s lost leaves go",
-      "At the falling of the year.’"
-    ]
-  };
 
   return (
     <div className={`mx-auto max-w-screen-md mt-4 py-5 px-32 bg-gradient-to-br h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}>
@@ -79,11 +98,10 @@ function App() {
       <TopButtons setCity={setCity} />
       <Inputs setCity={setCity} units={units} setUnits={setUnits}/>
 
-      {weather && (
+      {weather && poemData && (
         <div>
           <TimeAndLocation weather ={weather} />
           <TemperatureAndDetails weather={weather} units={units} />
-
           <WeatherPoem {...poemData}/>
         </div>
       )}
@@ -94,3 +112,6 @@ function App() {
 }
 
 export default App;
+
+
+
