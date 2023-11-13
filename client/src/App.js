@@ -35,7 +35,7 @@ function App() {
           try {
             // extract the second word from the keyword
             const [, secondWord] = keyword.split(' ');
-            console.log(secondWord)
+            //console.log(secondWord)
       
             const response = await fetch(`https://poetrydb.org/lines,random/[${secondWord}];5`);
       
@@ -71,7 +71,7 @@ function App() {
             console.error('Error fetching poetry data:', error.message);
           }
         };
-        getPoetryData(data.weather[0].description); // or use weather.weather[0].main as the keyword
+        await getPoetryData(data.weather[0].description); // or use weather.weather[0].main as the keyword
 
       } catch (error) {
         console.error('Error fetching weather data:', error.message);
