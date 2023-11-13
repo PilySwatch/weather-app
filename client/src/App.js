@@ -18,69 +18,66 @@ function App() {
   // TODO: find the way to render also ºF - if not, remove the buttons from Inputs component
 
   useEffect(() => {
-    // ---------- Fetch weather data
-    const getWeatherData = async () => {
+    const fetchData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/weather?city=${encodeURIComponent(city)}`);
+        // FIRST:
+        // ---------- Fetch weather data
+        const weatherResponse = await fetch(`http://localhost:3000/weather?city=${encodeURIComponent(city)}`);
+        if (!weatherResponse.ok) {
+          throw new Error(`Error: ${weatherResponse.statusText}`);
+        }
+        const weatherData = await weatherResponse.json();
+        setWeather(weatherData);
 
-        if (!response.ok) {
-          throw new Error(`Error: ${response.statusText}`);
+        // extract weather description for the upcoming data fetching -> poems
+        const keyword = weatherData.weather[0].description; // or use weatherData.weather[0].main as the keyword
+
+        // split keyword since weather[0].description is a string with 2 words
+        // later, extract the second word
+        const [, secondWord] = keyword.split(' ');
+
+        // SECOND:
+        // ---------- Fetch poetry data
+        const poetryResponse = await fetch(`https://poetrydb.org/lines,random/[${secondWord}];5`);
+        if (!poetryResponse.ok) {
+          throw new Error(`Error: ${poetryResponse.statusText}`);
+        }
+        const poetryData = await poetryResponse.json();
+  
+        // find the poem with the most occurrences of the keyword
+        if (poetryData && poetryData.length > 0) {
+          let maxOccurrences = 0;
+          let selectedPoem = null;
+  
+          poetryData.forEach((poem) => {
+            const occurrences = (poem.lines.join(' ').match(new RegExp(secondWord, 'gi')) || []).length;
+  
+            if (occurrences > maxOccurrences) {
+              maxOccurrences = occurrences;
+              selectedPoem = poem;
+            }
+          });
+  
+          if (selectedPoem) {
+            setPoemData({
+              title: selectedPoem.title,
+              author: selectedPoem.author,
+              lines: selectedPoem.lines,
+            });
+          }
         }
 
-        const data = await response.json();
-        setWeather(data);
-
-        // ---------- Fetch poetry data
-        const getPoetryData = async (keyword) => {
-          try {
-            // extract the second word from the keyword
-            const [, secondWord] = keyword.split(' ');
-            //console.log(secondWord)
-      
-            const response = await fetch(`https://poetrydb.org/lines,random/[${secondWord}];5`);
-      
-            if (!response.ok) {
-              throw new Error(`Error: ${response.statusText}`);
-            }
-      
-            const data = await response.json();
-      
-            if (data && data.length > 0) {
-              // find the poem with the most occurrences of the keyword
-              let maxOccurrences = 0;
-              let selectedPoem = null;
-      
-              data.forEach((poem) => {
-                const occurrences = (poem.lines.join(' ').match(new RegExp(secondWord, 'gi')) || []).length;
-      
-                if (occurrences > maxOccurrences) {
-                  maxOccurrences = occurrences;
-                  selectedPoem = poem;
-                }
-              });
-      
-              if (selectedPoem) {
-                setPoemData({
-                  title: selectedPoem.title,
-                  author: selectedPoem.author,
-                  lines: selectedPoem.lines,
-                });
-              }
-            }
-          } catch (error) {
-            console.error('Error fetching poetry data:', error.message);
-          }
-        };
-        await getPoetryData(data.weather[0].description); // or use weather.weather[0].main as the keyword
-
       } catch (error) {
-        console.error('Error fetching weather data:', error.message);
+        console.error('Error fetching data:', error.message);
       }
     };
 
-    getWeatherData();
+    fetchData();
 
   }, [city, units]);
+
+  console.log('Weather:', weather);
+  console.log('Poem Data:', poemData);
 
 
 
@@ -108,7 +105,8 @@ function App() {
         <div>
           <TimeAndLocation weather ={weather} />
           <TemperatureAndDetails weather={weather} units={units} />
-          <WeatherPoem {...poemData}/>
+          <WeatherPoem {...poemData} keyword={(weather.weather[0].description.split(' ')[1] || 'weather')}/> 
+          {/*  In case the second word from the weather description is empty, then I want the keyword to be weather */}
         </div>
       )}
        
@@ -118,6 +116,3 @@ function App() {
 }
 
 export default App;
-
-
-

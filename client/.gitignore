@@ -2,8 +2,9 @@
 
 .env
 
-# any file that starts with "test"
+# any file that starts with "test" or "old"
 test*
+old*
 
 # dependencies
 /node_modules
