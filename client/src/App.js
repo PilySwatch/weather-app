@@ -17,8 +17,8 @@ function App() {
   // TODO: clean this function and move it to another file (ex: services/weatherService)
   // TODO: find the way to render also ºF - if not, remove the buttons from Inputs component
 
-  // ---------- Fetch weather data
   useEffect(() => {
+    // ---------- Fetch weather data
     const getWeatherData = async () => {
       try {
         const response = await fetch(`http://localhost:3000/weather?city=${encodeURIComponent(city)}`);
@@ -29,7 +29,49 @@ function App() {
 
         const data = await response.json();
         setWeather(data);
-        getPoetryData(data.weather[0].description); // use weather.weather[0].main as the keyword
+
+        // ---------- Fetch poetry data
+        const getPoetryData = async (keyword) => {
+          try {
+            // extract the second word from the keyword
+            const [, secondWord] = keyword.split(' ');
+            console.log(secondWord)
+      
+            const response = await fetch(`https://poetrydb.org/lines,random/[${secondWord}];5`);
+      
+            if (!response.ok) {
+              throw new Error(`Error: ${response.statusText}`);
+            }
+      
+            const data = await response.json();
+      
+            if (data && data.length > 0) {
+              // find the poem with the most occurrences of the keyword
+              let maxOccurrences = 0;
+              let selectedPoem = null;
+      
+              data.forEach((poem) => {
+                const occurrences = (poem.lines.join(' ').match(new RegExp(secondWord, 'gi')) || []).length;
+      
+                if (occurrences > maxOccurrences) {
+                  maxOccurrences = occurrences;
+                  selectedPoem = poem;
+                }
+              });
+      
+              if (selectedPoem) {
+                setPoemData({
+                  title: selectedPoem.title,
+                  author: selectedPoem.author,
+                  lines: selectedPoem.lines,
+                });
+              }
+            }
+          } catch (error) {
+            console.error('Error fetching poetry data:', error.message);
+          }
+        };
+        getPoetryData(data.weather[0].description); // or use weather.weather[0].main as the keyword
 
       } catch (error) {
         console.error('Error fetching weather data:', error.message);
@@ -41,47 +83,6 @@ function App() {
   }, [city, units]);
 
 
-  // ---------- Fetch poetry data
-  const getPoetryData = async (keyword) => {
-    try {
-      // extract the second word from the keyword
-      const [, secondWord] = keyword.split(' ');
-      console.log(secondWord)
-
-      const response = await fetch(`https://poetrydb.org/lines,random/[${secondWord}];5`);
-
-      if (!response.ok) {
-        throw new Error(`Error: ${response.statusText}`);
-      }
-
-      const data = await response.json();
-
-      if (data && data.length > 0) {
-        // find the poem with the most occurrences of the keyword
-        let maxOccurrences = 0;
-        let selectedPoem = null;
-
-        data.forEach((poem) => {
-          const occurrences = (poem.lines.join(' ').match(new RegExp(secondWord, 'gi')) || []).length;
-
-          if (occurrences > maxOccurrences) {
-            maxOccurrences = occurrences;
-            selectedPoem = poem;
-          }
-        });
-
-        if (selectedPoem) {
-          setPoemData({
-            title: selectedPoem.title,
-            author: selectedPoem.author,
-            lines: selectedPoem.lines,
-          });
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching poetry data:', error.message);
-    }
-  };
 
 
   // ----------  Format background color
@@ -103,7 +104,7 @@ function App() {
       <TopButtons setCity={setCity} />
       <Inputs setCity={setCity} units={units} setUnits={setUnits}/>
 
-      {weather && poemData && (
+      { weather && poemData && (
         <div>
           <TimeAndLocation weather ={weather} />
           <TemperatureAndDetails weather={weather} units={units} />
