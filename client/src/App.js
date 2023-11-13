@@ -1,11 +1,11 @@
 
 import './App.css';
+import { useState, useEffect } from 'react';
+
 import TopButtons from './components/TopButtons';
 import Inputs from './components/Inputs';
 import TimeAndLocation from './components/TimeAndLocation';
 import TemperatureAndDetails from './components/TemperatureAndDetails';
-//import getWeatherData from './services/weatherService';
-import { useState, useEffect } from 'react';
 import WeatherPoem from './components/WeatherPoem';
 
 function App() {
