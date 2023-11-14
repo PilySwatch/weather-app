@@ -14,6 +14,7 @@ function App() {
   const [weather, setWeather] = useState(null);
   const [poemData, setPoemData] = useState(null);
 
+  // TODO: improve app first load - sometimes it doesn't load all the components correctly. This error happens here -> (*) 
   // TODO: clean this function and move it to another file (ex: services/weatherService)
   // TODO: find the way to render also ºF - if not, remove the buttons from Inputs component
 
@@ -76,8 +77,6 @@ function App() {
 
   }, [city, units]);
 
-  console.log('Weather:', weather);
-  console.log('Poem Data:', poemData);
 
 
 
@@ -92,6 +91,9 @@ function App() {
   }
 
 
+
+
+
   return (
     <div className={`mx-auto max-w-screen-md mt-4 py-5 px-28 bg-gradient-to-br h-fit shadow-xl shadow-gray-400 ${formatBackground()}`}>
       <div className='flex flex-row items-center justify-center py-3'>
@@ -101,6 +103,7 @@ function App() {
       <TopButtons setCity={setCity} />
       <Inputs setCity={setCity} units={units} setUnits={setUnits}/>
 
+      {/* ---- (*) Error starts  ---- */}
       { weather && poemData && (
         <div>
           <TimeAndLocation weather ={weather} />

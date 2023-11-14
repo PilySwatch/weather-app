@@ -20,7 +20,8 @@ export default function WeatherPoem({ title, author, lines, keyword }) {
 
   // function to highligh the keyword that matched the weather description
   const highlightKeyword = (phrase) => {
-    const regex = new RegExp(`\\b(${keyword}\\w*s\\b)`, 'gi');
+    // TODO: improve keyword search to avoid regex to mack words like: "skyscraper" if keyword = sky but still to take into account plurals or -ing endings
+    const regex = new RegExp(`\\b(${keyword})`, 'gi'); // "\\b" is an achor - word boundary. In this regex search, it ignores words like "train" or "brain" if the keyword = "rain"
     const parts = phrase.split(regex);
 
     return parts.map((part, index) => (
