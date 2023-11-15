@@ -17,7 +17,7 @@ export default function TemperatureAndDetails(
   // Format weather description color
   const formatWeatherDescription = () => {
     if (!weather) return 'text-slate-100';
-    const threshold = units === 'metric' ? 20 : 60
+    const threshold = units === 'metric' ? 19 : 60
     if (weather.main.temp <= threshold) return 'text-cyan-300';
 
     return 'text-orange-200';
