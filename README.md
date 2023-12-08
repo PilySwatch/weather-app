@@ -2,15 +2,16 @@
 
 NimbusCast is a full-stack app that tracks global weather data in real time and delivers a poem at random based on the conditions in the area you search.
 
-## 🚀 Tech Stack - Tools used
 
-The tech stack utilised to create this app was as follows:
-- **For the Back-End:** *Node.js* together with *Express*
-- **For the Front-End:** *React* together with *TailwindCSS*
+<img src="cold.png?raw=true" width="300" height="400">
+<img src="warm.png?raw=true" width="300" height="400">
+<br />
+<br />
 
-Additionally, this application uses two distinct APIs to obtain its data,  [WeatherOpenMap](https://openweathermap.org/) to find out the current weather conditions, and [PoetryDB](https://poetrydb.org/index.html) to get a selection of random poems.
 
-## 🚀 Project Installation - What you need
+# 🚀 Getting started
+
+## Project Installation - What you need
 
 Use the guidelines below to work on this project on your local machine: 
 
@@ -23,11 +24,11 @@ After, you finished installing:
 
 ```js
   // go to each folder
-  cd <client>
-  cd <server>
+  cd client
+  cd server
 
   // install dependencies
-  npm install 
+  npm install || npm i
 ```
 
 To launch the entire application, use two separate console views and run the following commands, starting with the `Server` and moving on to the `Client`:
@@ -42,7 +43,7 @@ To launch the entire application, use two separate console views and run the fol
 Don't worry if your `Client` console prompt asks you to run the application in a different port after you've completed the previous commands. Since you are running your `Server` first, this is entirely typical.
 
 
-## 🚀 API Connection - How to connect
+## API Connection - How to connect
 **IMPORTANT**: As you work through the code, you will notice that you need a `SECRET_KEY_API` in order to access all of the data from the OpenWeatherMap API. For that reason, I will suggest that you get one on your own first, and modify the code to fit it by creating a separate `.env` file in the Back-End and saving it there.
 
 Once you have created it, please be careful and DO NOT publish your `.env` file anywhere.
@@ -51,11 +52,19 @@ The instructions to get your own `SECRET_KEY_API` are available [here](https://h
 
 Luckily, this does not applicable to PoetryDB API.
 
-## 🚀 Optimizations
+# 🚀 Tech Stack - Tools used
 
-You are welcome to add new features to what has already been developed, as well as make any changes you deem necessary.  
+The tech stack utilised to create this app was as follows:
+- **For the Back-End:** *Node.js* together with *Express*
+- **For the Front-End:** *React* together with *TailwindCSS*
 
-Additionally, if you find any errors or there is anything you would like to discuss, you can reach me me at this email: pilar.cuellarta@gmail.com
+Additionally, this application uses two distinct APIs to obtain its data,  [WeatherOpenMap](https://openweathermap.org/) to find out the current weather conditions, and [PoetryDB](https://poetrydb.org/index.html) to get a selection of random poems.
+
+# 🚀 Further Optimization
+
+You are welcome to add new features to what has already been developed, as well as make any changes you deem necessary. I also left a couple of cases and recommendations in this [repo's issues section](https://github.com/PilySwatch/weather-app/issues), so feel free to look at them if you're itching to do so.
+
+Additionally, if you find any errors or there is anything you would like to discuss, you can reach me at this email: pilar.cuellarta@gmail.com
 
 
 Thank you for consider my project, and **Happy Coding!** 💙 
