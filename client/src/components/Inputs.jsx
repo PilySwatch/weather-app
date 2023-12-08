@@ -1,97 +1,39 @@
-import { React, useState } from "react";
+import { React, useState } from 'react';
 import { UilSearch } from '@iconscout/react-unicons';
-  
-
-// mock data - city searchs
-// const suggestions = ["Dublin,IE", "Rome,IT", "Beijing,CN", "Copenhagen,DK", "Riga,LV", "Astana,KZ"];
 
 
 export default function Inputs(
-  {setCity, units, setUnits}
+  {setCity}
   ) {
-   const [cityName, setCityName] = useState("");
-  //  const [showSuggestions, setShowSuggestions] = useState(false);
+   const [cityName, setCityName] = useState('');
 
   const handleSearchClick = () => {
     if (cityName !== '') {
       setCity(cityName);
-      setCityName(""); // reset the cityName to clear the input field
-      // setShowSuggestions(false) // hide suggestions after selecting city
+      setCityName('');
     }
   }
 
-  // const handleSuggestionClick = (suggestion) => {
-  //   setCityName(suggestion);
-  //   setShowSuggestions(false);
-  // }
-
-    // TODO: if the name of the city is not correct, do nothing or send message from the input
-    // TODO: after searching for a city, remove input
-    // TODO: sometimes we need to include the country code to show the correct city --> example: Rome, IT 
-
-
-  // TODO: find the way to render also ºF - if not, remove the buttons from Inputs component
-  // const handleUnitChange = (e) => {
-  //   const selectedUnit = e.currentTarget.name;
-  //   if (units !== selectedUnit) setUnits(selectedUnit);
-  // }
-    // TODO: add ºC and ºF after the number
-    // TODO: check values when ºF, they are different compare to ºC
-
   return (
-    <div className="flex flex-row justify-center my-6">
+    <div className='flex flex-row justify-center my-6'>
 
-      <div className="flex flex-row w-3/4 items-center justify-center space-x-0">
+      <div className='flex flex-row w-3/4 items-center justify-center space-x-0'>
         <input 
         value={cityName}
         onChange={(e) => setCityName(e.currentTarget.value)}
-        type="text" 
-        placeholder="Search for city..."
-        className="text-xl font-light p-2 w-full shadow-xl focus:outline-none capitalize placeholder:lowercase"
+        type='text' 
+        placeholder='Search for city...'
+        className='text-xl font-light p-2 w-full shadow-xl focus:outline-none capitalize placeholder:lowercase'
         />
         
-        <div className="bg-gray-700 p-2.5" >
+        <div className='bg-gray-700 p-2.5' >
           <UilSearch 
           size={25} 
-          className="text-white cursor-pointer transition ease-out hover:scale-125"
+          className='text-white cursor-pointer transition ease-out hover:scale-125'
           onClick={handleSearchClick}
           />
         </div>
       </div>
-
-      {/* {showSuggestions && (
-        <div className="suggestion-block">
-          {suggestions
-            .filter((suggestion) => suggestion.toLowerCase().includes(cityName.toLowerCase()))
-            .map((suggestion) => (
-              <div
-                key={suggestion}
-                className="suggestion-item"
-                onClick={() => handleSuggestionClick(suggestion)}
-              >
-                {suggestion}
-              </div>
-            ))}
-        </div>
-      )} */}
-
-
-      
-      {/* <div className="flex flex-row w-1/4 items-center justify-center">
-        <button 
-        name="metric" 
-        className="text-xl text-white font-light transition ease-out hover:scale-125"
-        onClick={handleUnitChange}
-        >ºC</button>
-
-        <p className="text-xl text-white mx-1">|</p>
-
-        <button 
-        name="imperial" 
-        className="text-xl text-white font-light transition ease-out hover:scale-125"
-        onClick={handleUnitChange}
-        >ºF</button>
-      </div> */}
 
     </div>
 

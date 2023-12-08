@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function TopButtons(
   {setCity}
@@ -32,13 +32,10 @@ export default function TopButtons(
     },
   ]
 
-  // TODO: add text-decoration underline when hover and selecting city
-
-
   return (
-    <div className="flex items-center justify-around my-6">
+    <div className='flex items-center justify-around my-6'>
       {cities.map((city) => (
-        <button key={city.id} className="text-white text-lg font-medium" 
+        <button key={city.id} className='text-white text-lg font-medium' 
         onClick={() => setCity(city.title)}
         >{city.title}</button>
       ))}
