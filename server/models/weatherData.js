@@ -1,8 +1,7 @@
 require('dotenv').config(); 
 
-// Weather API connection
 const openWeatherMap = {
-  BASE_URL: 'https://api.openweathermap.org/data/2.5', // before /2.5/weather
+  BASE_URL: 'https://api.openweathermap.org/data/2.5',
   API_KEY: process.env.WEATHER_SECRET_KEY
 };
 
