@@ -2,7 +2,7 @@
 
 NimbusCast is a full-stack app that tracks global weather data in real time and delivers a poem at random based on the conditions in the area you search.
 
-<p float="left">
+<p align="center">
   <img src="client/readme-images/cold.png?raw=true" width="300" height="400">
   <img src="client/readme-images/warm.png?raw=true" width="300" height="400">
 </p>
@@ -33,7 +33,7 @@ To launch the entire application, use two separate console views and run the fol
 
 ```js
   // for the server
-  npm run start
+  npm start
 
   // for the client
   npm start
