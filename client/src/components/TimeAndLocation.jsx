@@ -1,8 +1,6 @@
 import React from "react";
 
-export default function TimeAndLocation(
-  {weather}
-  ) {
+export default function TimeAndLocation({weather}) {
 
   return (
     <div>
