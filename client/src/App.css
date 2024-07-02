@@ -1,38 +1,56 @@
-.App {
-  text-align: center;
+/* Default background */
+.bg-gradient-to-b {
+  background: linear-gradient(to bottom, #edf2f7, #a0aec0, #718096, #4a5568, #2d3748);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Daytime backgrounds */
+.bg-day-clear {
+  background: url('../public/day.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.bg-day-cloudy {
+  background: url('../public/cloudy.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.bg-day-rainy {
+  background: url('../public/cloudy2.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
-.App-link {
-  color: #61dafb;
+.bg-day-snowy {
+  background: url('../public/storm.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.bg-day-default {
+  background: url('../public/day.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+/* Nighttime backgrounds */
+.bg-night-clear {
+  background: url('../public/night.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-night-cloudy {
+  background: url('../public/night-cloudy.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-night-rainy {
+  background: url('../public/night-rainy.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-night-snowy {
+  background: url('../public/night-snowy.png') no-repeat center center fixed;
+  background-size: cover;
+}
+
+.bg-night-default {
+  background: url('../public/night.png') no-repeat center center fixed;
+  background-size: cover;
 }
