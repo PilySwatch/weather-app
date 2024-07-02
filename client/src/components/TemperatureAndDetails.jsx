@@ -1,4 +1,4 @@
-import React from 'react';
+
 import {
   UilArrowUp,
   UilArrowDown,
@@ -10,14 +10,12 @@ import {
 } from '@iconscout/react-unicons';
 import { iconUrlFromCode } from '../utils/helperFunctions';
 
-export default function TemperatureAndDetails(
-  { weather, units }
-  ) {
+export default function TemperatureAndDetails({ weather, units }) {
 
   const formatWeatherDescription = () => {
     if (!weather) return 'text-slate-100';
     const threshold = units === 'metric' ? 19 : 60
-    if (weather.main.temp <= threshold) return 'text-cyan-300';
+    if (weather.temperature <= threshold) return 'text-cyan-300';
 
     return 'text-orange-200';
   }
@@ -25,32 +23,32 @@ export default function TemperatureAndDetails(
   return (
     <div>
       <div className={`flex items-center justify-center py-6 text-xl ${formatWeatherDescription()}`}>
-        <p> { weather.weather[0].main } - { weather.weather[0].description } </p>
+        <p> { weather.weather_main } - { weather.weather_description } </p>
       </div>
 
 
       <div className='flex items-center justify-between py-3 text-white'>
-        <img src={ iconUrlFromCode(weather.weather[0].icon) } alt='' className='w-30'/>
+        <img src={ iconUrlFromCode(weather.icon) } alt='weather icon' className='w-30'/>
 
-        <p className='text-5xl'>{ weather.main.temp.toFixed() }ºC</p>
+        <p className='text-5xl'>{ weather.temperature.toFixed() }ºC</p>
 
         <div className='flex flex-col space-y-2'>
           <div className='flex items-center justify-start text-sm font-light'>
             <UilTemperature size={18} className='mr-1' />
             Real feel:
-            <span className='ml-1 font-medium'>{ weather.main.feels_like.toFixed()}ºC</span>
+            <span className='ml-1 font-medium'>{ weather.feels_like.toFixed()}ºC</span>
           </div>
 
           <div className='flex items-center justify-center text-sm font-light'>
             <UilTear size={18} className='mr-1' />
             Humidity:
-            <span className='ml-1 font-medium'>{ weather.main.humidity.toFixed() }%</span>
+            <span className='ml-1 font-medium'>{ weather.humidity.toFixed() }%</span>
           </div>
 
           <div className='flex items-center justify-center text-sm font-light'>
             <UilWind size={18} className='mr-1' />
             Wind:
-            <span className='ml-1 font-medium'>{ weather.wind.speed.toFixed() } km/h</span>
+            <span className='ml-1 font-medium'>{ weather.wind_speed.toFixed() } km/h</span>
           </div>
         </div>
       </div>
@@ -70,13 +68,13 @@ export default function TemperatureAndDetails(
 
         <UilArrowUp />
         <p className='font-light'>
-          High: <span className='ml-1 font-medium'>{ weather.main.temp_max.toFixed() }ºC</span>
+          High: <span className='ml-1 font-medium'>{ weather.temp_max.toFixed() }ºC</span>
         </p>
         <p className='font-light'>|</p>
 
         <UilArrowDown />
         <p className='font-light'>
-          Low: <span className='ml-1 font-medium'>{ weather.main.temp_min.toFixed() }ºC</span>
+          Low: <span className='ml-1 font-medium'>{ weather.temp_min.toFixed() }ºC</span>
         </p>
       </div>
 

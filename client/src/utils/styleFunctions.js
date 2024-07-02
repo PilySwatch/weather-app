@@ -1,8 +1,8 @@
 const formatBackground = (weather) => {
-  if (!weather) return 'bg-gradient-to-b from-sky-200 via-sky-600 to-sky-900';
+  if (!weather) return 'bg-gradient-to-b';
 
-  const description = weather.weather[0].description.toLowerCase();
-  const localTime = weather.localTime;
+  const description = weather.weather_description;
+  const localTime = weather.local_time;
 
   // Extract hours and minutes from localTime
   // Parse the time string into a Date object
@@ -24,7 +24,7 @@ const formatBackground = (weather) => {
   // Determine if it's daytime or nighttime
   const currentHour = currentDate.getHours();
   
-  if (currentHour >= 6 && currentHour < 18) { // Daytime (6:00 AM to 5:59 PM)
+  if (currentHour >= 6 && currentHour < 20) { // Daytime (6:00 AM to 5:59 PM)
       if (description.includes('clear')) {
           return 'bg-day-clear';
       } else if (description.includes('clouds')) {

@@ -15,7 +15,7 @@
 }
 
 .bg-day-rainy {
-  background: url('../public/storm.png') no-repeat center center fixed;
+  background: url('../public/cloudy2.png') no-repeat center center fixed;
   background-size: cover;
 }
 
@@ -41,7 +41,7 @@
 }
 
 .bg-night-rainy {
-  background: url('../public/storm.png') no-repeat center center fixed;
+  background: url('../public/night-rainy.png') no-repeat center center fixed;
   background-size: cover;
 }
 
