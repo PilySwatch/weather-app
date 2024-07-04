@@ -3,7 +3,6 @@
 
 # any file that starts with "test"
 test* 
-
 # Logs
 logs
 *.log

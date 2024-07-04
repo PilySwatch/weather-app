@@ -1,11 +1,13 @@
 # NimbusCast - Weather with a Side of Poetry
 
-NimbusCast is a full-stack app that tracks global weather data in real time and delivers a poem at random based on the conditions in the area you search.
+NimbusCast is a full-stack app that tracks and forecast global weather data in real time, and delivers a poem at random based on the conditions in the area you search.
 
 <p align="center">
-  <img src="client/readme-images/cold.png?raw=true" width="300" height="400">
-  <img src="client/readme-images/warm.png?raw=true" width="300" height="400">
+  <img src="./client/public/day-sample.png?raw=true" width="600" height="370">
+  <img src="./client/public/night-sample.png?raw=true" width="600" height="370">
 </p>
+
+Note that background images will change based on the weather in the city you are searching.
 
 # 🚀 Getting started
 
@@ -54,7 +56,7 @@ Luckily, this does not applicable to PoetryDB API.
 
 The tech stack utilised to create this app was as follows:
 - **For the Back-End:** *Node.js* together with *Express*
-- **For the Front-End:** *React* together with *TailwindCSS*
+- **For the Front-End:** *React.js* together with *TailwindCSS*
 
 Additionally, this application uses two distinct APIs to obtain its data,  [WeatherOpenMap](https://openweathermap.org/) to find out the current weather conditions, and [PoetryDB](https://poetrydb.org/index.html) to get a selection of random poems.
 
