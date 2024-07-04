@@ -30,8 +30,11 @@ async function getWeatherData(req, res) {
   }
 }
 
+
+
+
 async function fetchGeoData(city, country) {
-  const geoUrl = new URL('http://api.openweathermap.org/geo/1.0/direct');
+  const geoUrl = new URL(`${openWeatherMap.GEO_URL}`);
   geoUrl.search = new URLSearchParams({
     q: `${city},${country}`,
     limit: 1,
