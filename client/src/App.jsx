@@ -37,10 +37,10 @@ function App() {
     }, [city, units]);
 
     return (
-        <div className={`min-h-screen ${formatBackground(weather)} flex items-center justify-center animate-zoomInOut`}>
-                <div className='flex flex-col items-start justify-center p-2 md:flex-row'>
+        <div className={`min-h-screen ${formatBackground(weather)} flex items-center justify-center animate-zoomInOut w-full`}>
+                <div className='flex flex-col items-center justify-between w-p-2 md:flex-row w-[80%]'>
                     <Weather setCity={setCity} units={units} setUnits={setUnits} weather={weather} />
-                    <div className='flex flex-col items-center w-full mt-4 md:mt-0'>
+                    <div className='flex flex-col items-center w-full mt-4 just md:mt-0'>
                         <ForecastHourly weather={weather} />
                         <ForecastDaily weather={weather} />
                         <WeatherPoem poemData={poemData}/>

@@ -22,13 +22,13 @@ export default function TemperatureAndDetails({ weather, units }) {
 
   return (
     <div>
-      <div className={`flex items-center justify-center py-6 text-xl ${formatWeatherDescription()}`}>
+      <div className={`flex items-center justify-center py-6 text-xl ${formatWeatherDescription()} mt-2`}>
         <p> { weather.weather_main } - { weather.weather_description } </p>
       </div>
 
 
-      <div className='flex items-center justify-between py-3 text-white'>
-        <img src={ iconUrlFromCode(weather.icon) } alt='weather icon' className='w-30'/>
+      <div className='flex items-center justify-between px-5 py-2 text-white'>
+        <img src={ iconUrlFromCode(weather.icon) } alt='weather icon' className='w-40'/>
 
         <p className='text-5xl'>{ weather.temperature.toFixed() }ºC</p>
 
@@ -53,7 +53,7 @@ export default function TemperatureAndDetails({ weather, units }) {
         </div>
       </div>
 
-      <div className='flex flex-row items-center justify-center py-3 text-sm text-white space-x-[6px]'>
+      <div className='flex flex-row items-center justify-center py-3 text-sm text-white space-x-[6px] mt-2'>
         <UilSun />
         <p className='font-light'>
           Rise: {''} <span className='ml-1 font-medium'> { weather.sunrise }</span>
