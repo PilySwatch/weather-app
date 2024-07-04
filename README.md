@@ -3,8 +3,8 @@
 NimbusCast is a full-stack app that tracks and forecast global weather data in real time, and delivers a poem at random based on the conditions in the area you search.
 
 <p align="center">
-  <img src="./client/public/day-sample.png?raw=true" width="700" height="470">
-  <img src="./client/public/night-sample.png?raw=true" width="700" height="470">
+  <img src="./client/public/day-sample.png?raw=true" width="700" height="450">
+  <img src="./client/public/night-sample.png?raw=true" width="700" height="450">
 </p>
 
 Note that background images will change based on the weather in the city you are searching.
