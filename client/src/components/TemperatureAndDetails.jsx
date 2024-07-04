@@ -53,7 +53,7 @@ export default function TemperatureAndDetails({ weather, units }) {
         </div>
       </div>
 
-      <div className='flex flex-row items-center justify-center py-3 space-x-2 text-sm text-white'>
+      <div className='flex flex-row items-center justify-center py-3 text-sm text-white space-x-[6px]'>
         <UilSun />
         <p className='font-light'>
           Rise: {''} <span className='ml-1 font-medium'> { weather.sunrise }</span>
