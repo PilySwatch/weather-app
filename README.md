@@ -67,4 +67,4 @@ You are welcome to add new features to what has already been developed, as well 
 Additionally, if you find any errors or there is anything you would like to discuss, you can reach me at this email: pilar.cuellarta@gmail.com
 
 
-Thank you for consider my project, and **Happy Coding!** 💙 
+Thanks for considering my project, and **Happy Coding!** 💙 
