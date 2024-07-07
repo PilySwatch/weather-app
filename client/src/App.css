@@ -1,6 +1,8 @@
 /* Default background */
 .bg-gradient-to-b {
-  background: linear-gradient(to bottom, #edf2f7, #a0aec0, #718096, #4a5568, #2d3748);
+  /* background: linear-gradient(to bottom, #edf2f7, #a0aec0, #718096, #4a5568, #2d3748); */
+  background: url('../public/day-overcast-clouds.png') no-repeat center center fixed;
+  background-size: cover;
 }
 
 /* Daytime backgrounds */
@@ -12,6 +14,7 @@
 .bg-day-few-clouds {
   background: url('../public/day-few-clouds.png') no-repeat center center fixed;
   background-size: cover;
+  /* animation: moveClouds 60s linear infinite; */
 }
 
 .bg-day-scattered-clouds {
@@ -117,11 +120,11 @@
 
 
 /* Animation for moving clouds */
-@keyframes moveClouds {
+/* @keyframes moveClouds {
   from {
     background-position: 0 0;
   }
   to {
     background-position: 1000px 0;
   }
-}
+} */

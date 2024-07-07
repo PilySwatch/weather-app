@@ -24,6 +24,8 @@ module.exports = {
       },
       animation: {
         zoomInOut: 'zoomInOut 50s cubic-bezier(0.05, 0.1, 0.1, 0.05) infinite',
+        spinSlow: 'spin 3s linear infinite',
+
       },
 
     },
