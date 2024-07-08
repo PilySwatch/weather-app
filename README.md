@@ -7,7 +7,7 @@ NimbusCast is a full-stack app that tracks and forecast global weather data in r
   <img src="./client/public/night-sample.png?raw=true" width="800" height="450">
 </p>
 
-Note that background images will change based on the weather in the city you are searching
+Note that background images will change based on the weather in the city you are searching.
 The collection of these images was collected from [Unplash](https://unsplash.com/).
 
 # 🚀 Getting started
