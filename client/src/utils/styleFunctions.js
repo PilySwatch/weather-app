@@ -1,3 +1,5 @@
+import { convertCelsiusToFahrenheit } from './helperFunctions';
+
 const formatBackground = (weather) => {
   if (!weather) return 'bg-gradient-to-b';
 
@@ -42,7 +44,7 @@ const formatBackground = (weather) => {
         return 'bg-day-overcast-clouds';
     } else if (description.includes('shower rain')) {
         return 'bg-day-shower-rain';
-    } else if (description.includes('rain')) {
+    } else if (description.includes('rain') || description.includes('drizzle')) {
         return 'bg-day-rain';
     } else if (description.includes('storm')) {
         return 'bg-day-storm';
@@ -64,7 +66,7 @@ const formatBackground = (weather) => {
             return 'bg-night-broken-clouds';
         } else if (description.includes('overcast clouds')) {
             return 'bg-night-overcast-clouds';    
-        } else if (description.includes('shower rain')) {
+        } else if (description.includes('shower rain') || description.includes('drizzle')) {
             return 'bg-night-shower-rain';
         } else if (description.includes('rain')) {
             return 'bg-night-rain';
@@ -81,4 +83,22 @@ const formatBackground = (weather) => {
 };
 
 
-export { formatBackground };
+const formatAreaFill = (data, units) => {
+    if (!data || data.length === 0) return 'rgba(255, 255, 255, 0.4)';
+    const threshold = units === 'metric' ? 19 : 66;
+    const temperatures = data.map(d => units === 'metric' ? d.temp : convertCelsiusToFahrenheit(d.temp));
+    const averageTemp = temperatures.reduce((sum, temp) => sum + temp, 0) / temperatures.length;
+    if (averageTemp <= threshold) return 'rgba(77, 208, 225, 0.4)';
+    return 'rgba(255, 204, 128, 0.4)';
+};
+
+const formatAreaStroke = (data, units) => {
+    if (!data || data.length === 0) return 'rgba(255, 255, 255, 1)';
+    const threshold = units === 'metric' ? 19 : 66;
+    const temperatures = data.map(d => units === 'metric' ? d.temp : convertCelsiusToFahrenheit(d.temp));
+    const averageTemp = temperatures.reduce((sum, temp) => sum + temp, 0) / temperatures.length;
+    if (averageTemp <= threshold) return 'rgba(77, 208, 225, 1)';
+    return 'rgba(255, 204, 128, 1)';
+};
+
+export { formatBackground, formatAreaFill, formatAreaStroke };

@@ -1,4 +1,3 @@
-
 import {
   UilArrowUp,
   UilArrowDown,
@@ -8,17 +7,20 @@ import {
   UilSun,
   UilSunset,
 } from '@iconscout/react-unicons';
-import { iconUrlFromCode } from '../utils/helperFunctions';
+import { iconUrlFromCode, convertCelsiusToFahrenheit, formatTemperature } from '../utils/helperFunctions';
 
 export default function TemperatureAndDetails({ weather, units }) {
-
+  
   const formatWeatherDescription = () => {
     if (!weather) return 'text-slate-100';
-    const threshold = units === 'metric' ? 19 : 60
-    if (weather.temperature <= threshold) return 'text-cyan-300';
+    
+    const threshold = units === 'metric' ? 19 : 66;
+    const currentTemp = units === 'metric' ? weather.temperature : convertCelsiusToFahrenheit(weather.temperature);
 
+    if (currentTemp <= threshold) return 'text-cyan-300';
+    
     return 'text-orange-200';
-  }
+  };
 
   return (
     <div>
@@ -26,17 +28,16 @@ export default function TemperatureAndDetails({ weather, units }) {
         <p> { weather.weather_main } - { weather.weather_description } </p>
       </div>
 
-
       <div className='flex items-center justify-between px-5 py-2 text-white'>
         <img src={ iconUrlFromCode(weather.icon) } alt='weather icon' className='w-40'/>
 
-        <p className='text-5xl'>{ weather.temperature.toFixed() }ºC</p>
+        <p className='text-5xl'>{ formatTemperature(weather.temperature, units ) }</p>
 
         <div className='flex flex-col space-y-2'>
           <div className='flex items-center justify-start text-sm font-light'>
             <UilTemperature size={18} className='mr-1' />
             Real feel:
-            <span className='ml-1 font-medium'>{ weather.feels_like.toFixed()}ºC</span>
+            <span className='ml-1 font-medium'>{ formatTemperature(weather.feels_like, units) }</span>
           </div>
 
           <div className='flex items-center justify-center text-sm font-light'>
@@ -68,13 +69,13 @@ export default function TemperatureAndDetails({ weather, units }) {
 
         <UilArrowUp />
         <p className='font-light'>
-          High: <span className='ml-1 font-medium'>{ weather.temp_max.toFixed() }ºC</span>
+          High: <span className='ml-1 font-medium'>{ formatTemperature(weather.temp_max, units) }</span>
         </p>
         <p className='font-light'>|</p>
 
         <UilArrowDown />
         <p className='font-light'>
-          Low: <span className='ml-1 font-medium'>{ weather.temp_min.toFixed() }ºC</span>
+          Low: <span className='ml-1 font-medium'>{ formatTemperature(weather.temp_min, units) }</span>
         </p>
       </div>
 

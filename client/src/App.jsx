@@ -45,8 +45,8 @@ function App() {
     }, [city, units]);
 
     return (
-        <div className={`min-h-screen ${formatBackground(weather)} flex items-center justify-center w-full`}>
-            <div className="absolute top-0 left-0 w-full h-full animate-zoomInOut"></div>
+        <div className={`min-h-screen flex items-center justify-center w-full ${formatBackground(weather)}`}>
+            <div className={`absolute top-0 left-0 w-full h-full animation-zoomInOut`}></div>
                 {loading ? (
                     <Spinner />) :
                     (
@@ -54,12 +54,12 @@ function App() {
                             <div className='flex flex-col items-center justify-between w-p-2 md:flex-row w-[80%] relative'>
                                 <Weather setCity={setCity} units={units} setUnits={setUnits} weather={weather} />
                                 <div className='flex flex-col items-center w-full mt-4 just md:mt-0'>
-                                    <ForecastHourly weather={weather} />
-                                    <ForecastDaily weather={weather} />
+                                    <ForecastHourly weather={weather} units={units} />
+                                    <ForecastDaily weather={weather} units={units} />
                                     <WeatherPoem poemData={poemData}/>
                                 </div>
                             </div>
-                    </>  
+                        </>  
                     )
                 }
         </div>
