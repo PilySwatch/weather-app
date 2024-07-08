@@ -11,7 +11,7 @@ export default function Weather({ setCity, units, setUnits, weather }) {
             <h1 className='text-2xl font-medium text-white underline sm:text-3xl md:text-4xl underline-offset-8'>NimbusCast</h1>
         </div>
         <TopButtons setCity={setCity} />
-        <Inputs setCity={setCity} units={units} setUnits={setUnits}/>
+        <Inputs setCity={setCity} setUnits={setUnits}/>
 
         { weather && ( 
             <div>
