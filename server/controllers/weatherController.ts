@@ -1,13 +1,71 @@
-const { DateTime } = require('luxon');
-const openWeatherMap = require('../models/weatherData');
+import { Request, Response } from 'express';
+import { DateTime } from 'luxon';
+import openWeatherMap from '../models/weatherData';
 
-async function getWeatherData(req, res) {
+interface GeoData {
+  lat: number;
+  lon: number;
+}
+
+interface WeatherData {
+  sys: {
+    country: string;
+    sunrise: number;
+    sunset: number;
+  };
+  coord: {
+    lat: number;
+    lon: number;
+  };
+  weather: {
+    icon: string;
+    main: string;
+    description: string;
+  }[];
+  main: {
+    temp: number;
+    temp_max: number;
+    temp_min: number;
+    feels_like: number;
+    humidity: number;
+  };
+  wind: {
+    speed: number;
+  };
+  rain?: {
+    '1h': number;
+  };
+  timezone: number;
+}
+
+interface ForecastData {
+  list: {
+    dt: number;
+    dt_txt: string;
+    main: {
+      temp: number;
+    };
+    weather: {
+      main: string;
+      description: string;
+      icon: string;
+    }[];
+    wind: {
+      speed: number;
+    };
+  }[];
+}
+
+async function getWeatherData(req: Request, res: Response): Promise<void> {
   try {
-    const city = req.query.city || 'Berlin';
-    const country = req.query.country || '';
+    const city = (req.query.city as string) || 'Berlin';
+    const country = (req.query.country as string) || '';
 
     const geoData = await fetchGeoData(city, country);
-    if (!geoData) return res.status(404).json({ error: 'City not found' });
+    if (!geoData) {
+      res.status(404).json({ error: 'City not found' });
+      return;
+    }
 
     const { lat, lon } = geoData;
 
@@ -20,7 +78,7 @@ async function getWeatherData(req, res) {
 
     const responseData = {
       ...filterWeatherData(city, weatherData, formattedSunrise, formattedSunset, localTime),
-      ...filterForecastData(forecastData, weatherData.timezone)
+      ...filterForecastData(forecastData, weatherData.timezone),
     };
 
     res.json(responseData);
@@ -30,66 +88,63 @@ async function getWeatherData(req, res) {
   }
 }
 
-
-
-
-async function fetchGeoData(city, country) {
+async function fetchGeoData(city: string, country: string): Promise<GeoData | null> {
   const geoUrl = new URL(`${openWeatherMap.GEO_URL}`);
   geoUrl.search = new URLSearchParams({
     q: `${city},${country}`,
-    limit: 1,
-    appid: openWeatherMap.API_KEY,
-  });
+    limit: '1',
+    appid: openWeatherMap.API_KEY || '',
+  }).toString();
 
-  const geoResponse = await fetch(geoUrl);
+  const geoResponse = await fetch(geoUrl.toString());
   const geoData = await geoResponse.json();
   return geoData.length ? geoData[0] : null;
 }
 
-async function fetchWeatherData(lat, lon) {
+async function fetchWeatherData(lat: number, lon: number): Promise<WeatherData> {
   const weatherUrl = new URL(`${openWeatherMap.BASE_URL}/weather`);
   weatherUrl.search = new URLSearchParams({
-    lat,
-    lon,
-    appid: openWeatherMap.API_KEY,
-    units: 'metric'
-  });
+    lat: lat.toString(),
+    lon: lon.toString(),
+    appid: openWeatherMap.API_KEY || '',
+    units: 'metric',
+  }).toString();
 
-  const weatherResponse = await fetch(weatherUrl);
+  const weatherResponse = await fetch(weatherUrl.toString());
   return await weatherResponse.json();
 }
 
-async function fetchForecastData(lat, lon) {
+async function fetchForecastData(lat: number, lon: number): Promise<ForecastData> {
   const forecastUrl = new URL(`${openWeatherMap.BASE_URL}/forecast`);
   forecastUrl.search = new URLSearchParams({
-    lat,
-    lon,
-    appid: openWeatherMap.API_KEY,
-    units: 'metric'
-  });
+    lat: lat.toString(),
+    lon: lon.toString(),
+    appid: openWeatherMap.API_KEY || '',
+    units: 'metric',
+  }).toString();
 
-  const forecastResponse = await fetch(forecastUrl);
+  const forecastResponse = await fetch(forecastUrl.toString());
   return await forecastResponse.json();
 }
 
-function formatTime(timestamp, timezoneOffset) {
+function formatTime(timestamp: number, timezoneOffset: number): string {
   return DateTime.fromMillis(timestamp * 1000).plus({ seconds: timezoneOffset }).toFormat('hh:mm a');
 }
 
-function formatLocalTime(timezoneOffset) {
-  const options = {
+function formatLocalTime(timezoneOffset: number): string {
+  const options: Intl.DateTimeFormatOptions = {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     hour: 'numeric',
-    minute: 'numeric'
+    minute: 'numeric',
   };
   const utcTime = new Date().getTime() + new Date().getTimezoneOffset() * 60000;
   return new Date(utcTime + timezoneOffset * 1000).toLocaleString('en-US', options);
 }
 
-function filterWeatherData(city, weatherData, sunrise, sunset, localTime) {
+function filterWeatherData(city: string, weatherData: WeatherData, sunrise: string, sunset: string, localTime: string) {
   return {
     city_name: city,
     country: weatherData.sys.country,
@@ -106,12 +161,12 @@ function filterWeatherData(city, weatherData, sunrise, sunset, localTime) {
     rain_1h: weatherData.rain ? weatherData.rain['1h'] : 0,
     sunrise,
     sunset,
-    local_time: localTime
+    local_time: localTime,
   };
 }
 
-function filterForecastData(forecastData, timezoneOffset) {
-  const filteredForecastData = forecastData.list.map(forecast => {
+function filterForecastData(forecastData: ForecastData, timezoneOffset: number) {
+  const filteredForecastData = forecastData.list.map((forecast) => {
     const forecastDateTime = DateTime.fromSeconds(forecast.dt).plus({ seconds: timezoneOffset });
     return {
       dt: forecast.dt,
@@ -123,23 +178,22 @@ function filterForecastData(forecastData, timezoneOffset) {
       time: forecastDateTime.toFormat('h:mm a'),
       date: forecastDateTime.toFormat('yyyy-MM-dd'),
       week_day: forecastDateTime.toFormat('ccc'),
-      icon: forecast.weather[0].icon
+      icon: forecast.weather[0].icon,
     };
   });
 
-  const forecastHourly = [];
-  const forecastDaily = {};
+  const forecastHourly: any[] = [];
+  const forecastDaily: { [key: string]: any } = {};
 
-  filteredForecastData.forEach(forecast => {
+  filteredForecastData.forEach((forecast) => {
     forecastHourly.push({
       time: forecast.time,
       date: forecast.date,
       temp: forecast.temp,
-      feels_like: forecast.feels_like,
       weather_main: forecast.weather_main,
       description: forecast.description,
       wind_speed: forecast.wind_speed,
-      icon: forecast.icon
+      icon: forecast.icon,
     });
 
     if (forecast.date !== DateTime.local().toFormat('yyyy-MM-dd')) {
@@ -147,18 +201,21 @@ function filterForecastData(forecastData, timezoneOffset) {
         date: forecast.date,
         time: forecast.time,
         temp: forecast.temp,
-        icon: forecast.icon
+        icon: forecast.icon,
       };
     }
   });
 
   return {
     forecast_time: forecastHourly,
-    forecast_day: forecastDaily
+    forecast_day: forecastDaily,
   };
 }
 
-module.exports = { getWeatherData };
+export { getWeatherData };
+
+
+
 
 
 

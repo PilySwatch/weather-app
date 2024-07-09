@@ -1,0 +1,14 @@
+{
+  "include": ["./**/*.ts"],
+  "exclude": ["**/*.spec.ts", "node_modules"],
+  "compilerOptions": {
+    "target": "ES6", 
+    "module": "commonjs", 
+    "rootDir": "./", 
+    "moduleResolution": "node10",
+    "allowJs": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "strict": true,
+  }
+}

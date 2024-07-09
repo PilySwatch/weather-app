@@ -1,21 +1,28 @@
-const poetryDB = require('../models/poetryData');
+import { Request, Response } from 'express';
+import poetryDB from '../models/poetryData';
 
-async function getPoemData(req, res) {
+interface Poem {
+    title: string;
+    author: string;
+    lines: string[];
+}
+
+async function getPoemData(req: Request, res: Response): Promise<void> {
     const { keyword } = req.query;
-    const searchTerm = keyword || ''; // Default keyword if not provided
+    const searchTerm = (keyword as string) || ''; // Default keyword if not provided
 
     try {
         const poetryResponse = await fetch(`${poetryDB.BASE_URL}/lines,random/${searchTerm};5`);
         if (!poetryResponse.ok) {
             throw new Error(`Error: ${poetryResponse.statusText}`);
         }
-        const poetryData = await poetryResponse.json();
+        const poetryData: Poem[] = await poetryResponse.json();
 
         if (poetryData && poetryData.length > 0) {
-            let selectedPoem = null;
+            let selectedPoem: Poem | null = null;
             let occurrencesCount = 0;
 
-            poetryData.forEach((poem) => {
+            poetryData.forEach((poem: Poem) => {
                 const occurrences = (poem.lines.join(' ').match(new RegExp(searchTerm, 'gi')) || []).length;
 
                 if (occurrences > occurrencesCount) {
@@ -25,22 +32,26 @@ async function getPoemData(req, res) {
             });
 
             if (selectedPoem) {
-                return res.json({
-                  weatherWord: searchTerm,
-                  occurrences: occurrencesCount,
-                  title: selectedPoem.title,
-                  author: selectedPoem.author,
-                  lines: selectedPoem.lines,
+                res.json({
+                    weatherWord: searchTerm,
+                    occurrences: occurrencesCount,
+                    title: selectedPoem['title'],
+                    author: selectedPoem['author'],
+                    lines: selectedPoem['lines'],
                 });
+                return;
             }
-          }
+        }
         res.status(404).json({ error: 'Sorry, no poem found' });
 
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error fetching poem data:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
 
-module.exports = { getPoemData };
+export { getPoemData };
+
+
+
 
