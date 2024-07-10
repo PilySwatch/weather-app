@@ -82,6 +82,7 @@ async function getWeatherData(req: Request, res: Response): Promise<void> {
     };
 
     res.json(responseData);
+    console.log('EXAMPLE: ', responseData)
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Unable to fetch weather data, please try again' });
