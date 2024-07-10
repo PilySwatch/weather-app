@@ -1,6 +1,5 @@
-import React from 'react'
 
-function Spinner() {
+const Spinner: React.FC = () => {
   return (
     <div className='flex flex-col items-center justify-center'>
       <div className="flex items-center justify-center mb-4 space-x-2 bg-transparent animate-spinSlow">
@@ -11,4 +10,4 @@ function Spinner() {
   )
 }
 
-export default Spinner
+export default Spinner;

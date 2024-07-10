@@ -117,14 +117,3 @@
   background: url('../public/night-clear.png') no-repeat center center fixed;
   background-size: cover;
 }
-
-
-/* Animation for moving clouds */
-/* @keyframes moveClouds {
-  from {
-    background-position: 0 0;
-  }
-  to {
-    background-position: 1000px 0;
-  }
-} */

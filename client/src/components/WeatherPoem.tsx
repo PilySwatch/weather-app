@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
-import { UilAngleLeft, UilAngleRight, UilAngleDoubleLeft, UilAngleDoubleRight } from '@iconscout/react-unicons';
+import { FaAngleLeft, FaAngleRight, FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
+import { PoemData } from '../Types';
 
-export default function WeatherPoem({ poemData }) {
+
+interface WeatherPoemProps {
+  poemData: PoemData | null;
+}
+
+const WeatherPoem: React.FC<WeatherPoemProps> = ({ poemData }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const linesPerPage = 6;
 
@@ -14,15 +20,14 @@ export default function WeatherPoem({ poemData }) {
   const visibleLines = poemData.lines.slice(startIdx, endIdx);
   const totalPages = Math.ceil(poemData.lines.length / linesPerPage);
 
-  const highlightKeyword = (phrase) => {
-    if (!poemData || !poemData.keyword) {
+  const highlightweatherWord = (phrase: string) => {
+    if (!poemData || !poemData.weatherWord) {
       return phrase;
     }
-  
-    const regex = new RegExp(`\\b(${poemData.keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+
+    const regex = new RegExp(`\\b(${poemData.weatherWord.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
     const parts = phrase.split(regex);
-    console.log(parts)
-  
+
     return parts.map((part, index) =>
       regex.test(part) ? (
         <span className='font-semibold underline' key={index}>{part}</span>
@@ -31,10 +36,8 @@ export default function WeatherPoem({ poemData }) {
       )
     );
   };
-  
-  
 
-  const handlePaginationClick = (action) => {
+  const handlePaginationClick = (action: 'first' | 'back' | 'next' | 'last') => {
     switch (action) {
       case 'first':
         setCurrentPage(1);
@@ -67,7 +70,7 @@ export default function WeatherPoem({ poemData }) {
         <div className='h-56 mt-4 mb-2 overflow-hidden italic font-light text-white text-medium'>
           {visibleLines.map((line, index) => (
             <React.Fragment key={index}>
-              {highlightKeyword(line)}
+              {highlightweatherWord(line)}
               {index < visibleLines.length - 1 && <br />}
             </React.Fragment>
           ))}
@@ -81,13 +84,13 @@ export default function WeatherPoem({ poemData }) {
               className='p-2 mx-1 bg-gray-700 rounded-full focus:outline-none'
               onClick={() => handlePaginationClick('first')}
             >
-              <UilAngleDoubleLeft />
+              <FaAnglesLeft />
             </button>
             <button
               className='p-2 mx-1 bg-gray-700 rounded-full focus:outline-none'
               onClick={() => handlePaginationClick('back')}
             >
-              <UilAngleLeft />
+              <FaAngleLeft />
             </button>
             <span className='mx-1 text-sm text-white'>
               Page {currentPage} of {totalPages}
@@ -96,20 +99,22 @@ export default function WeatherPoem({ poemData }) {
               className='p-2 mx-1 bg-gray-700 rounded-full focus:outline-none'
               onClick={() => handlePaginationClick('next')}
             >
-              <UilAngleRight />
+              <FaAngleRight />
             </button>
             <button
               className='p-2 mx-1 bg-gray-700 rounded-full -2 focus:outline-none'
               onClick={() => handlePaginationClick('last')}
             >
-              <UilAngleDoubleRight />
+              <FaAnglesRight />
             </button>
           </div>
         </div>
       )}
     </div>
   );
-}
+};
+
+export default WeatherPoem;
 
 
 

@@ -9,4 +9,8 @@
     font-family: 'Poppins', sans-serif;
     background-color: transparent;
   }
+
+  body {
+    margin: 0;
+  }
 }

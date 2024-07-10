@@ -1,6 +1,13 @@
 import { AreaChart, Area, ResponsiveContainer } from 'recharts';
+import { ChartDataHourly, ChartDataDaily } from '../Types';
 
-const TemperatureAreaChart = ({ data, fillColor, strokeColor }) => {
+interface TemperatureAreaChartProps {
+  data: ChartDataHourly[] | ChartDataDaily[],
+  fillColor: string,
+  strokeColor: string
+}
+
+const TemperatureAreaChart: React.FC<TemperatureAreaChartProps> = ({ data, fillColor, strokeColor }) => {
   return (
     <ResponsiveContainer width="100%" height={80}>
       <AreaChart data={data}>

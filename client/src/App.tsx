@@ -9,19 +9,22 @@ import ForecastHourly from './components/ForecastHourly';
 import WeatherPoem from './components/WeatherPoem';
 import Spinner from './components/Spinner';
 
-function App() {
-    const [city, setCity] = useState('Berlin');
-    const [units, setUnits] = useState('metric');
-    const [weather, setWeather] = useState(null);
-    const [poemData, setPoemData] = useState(null);
-    const [loading, setLoading] = useState(false);
+import { WeatherData, PoemData } from './Types';
+
+
+const App: React.FC = () => {
+    const [city, setCity] = useState<string>('Berlin');
+    const [units, setUnits] = useState<'metric' | 'imperial'>('metric');
+    const [weather, setWeather] = useState<WeatherData | null>(null);
+    const [poemData, setPoemData] = useState<PoemData | null>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         const fetchData = async () => {
             setLoading(true);
             try {
                 const weatherData = await getWeatherData(city);
-                if (!weatherData || weatherData.cod === '404') {
+                if (!weatherData) {
                     throw new Error('City not found');
                 }
                 setWeather(weatherData);
@@ -30,10 +33,14 @@ function App() {
                 const words = weatherDescription.split(' ');
                 const keyword = words[1];
 
-                const poemData = await getPoetryData(keyword); 
-                setPoemData(poemData);
+                const poemDataResponse = await getPoetryData(keyword);
+                if (poemDataResponse) {
+                    setPoemData(poemDataResponse); 
+                } else {
+                    throw new Error('No poem data found');
+                }
 
-            } catch (error) {
+            } catch (error: any) {
                 console.error('Error fetching data:', error.message);
             } finally {
                 setLoading(false); 
@@ -56,15 +63,17 @@ function App() {
                                 <div className='flex flex-col items-center w-full mt-4 just md:mt-0'>
                                     <ForecastHourly weather={weather} units={units} />
                                     <ForecastDaily weather={weather} units={units} />
-                                    <WeatherPoem poemData={poemData}/>
+                                    {poemData && (
+                                        <WeatherPoem poemData={poemData} />
+                                    )}
                                 </div>
                             </div>
                         </>  
                     )
                 }
         </div>
-    )
-}
+    );
+};
 
 export default App;
 

@@ -1,15 +1,19 @@
-import {
-  UilArrowUp,
-  UilArrowDown,
-  UilTemperature,
-  UilTear,
-  UilWind,
-  UilSun,
-  UilSunset,
-} from '@iconscout/react-unicons';
-import { iconUrlFromCode, convertCelsiusToFahrenheit, formatTemperature } from '../utils/helperFunctions';
 
-export default function TemperatureAndDetails({ weather, units }) {
+import { FaArrowUp, FaArrowDown, FaWind } from "react-icons/fa";
+import { FaTemperatureThreeQuarters } from "react-icons/fa6";
+import { MdOutlineWaterDrop } from "react-icons/md";
+import { FiSunrise, FiSunset } from "react-icons/fi";
+
+import { iconUrlFromCode, convertCelsiusToFahrenheit, formatTemperature } from '../utils/helperFunctions';
+import { WeatherData } from '../Types';
+
+
+interface TemperatureAndDetailsProps {
+  weather: WeatherData,
+  units: 'metric' | 'imperial';
+}
+
+const TemperatureAndDetails: React.FC<TemperatureAndDetailsProps> = ({ weather, units }) => {
   
   const formatWeatherDescription = () => {
     if (!weather) return 'text-slate-100';
@@ -35,19 +39,19 @@ export default function TemperatureAndDetails({ weather, units }) {
 
         <div className='flex flex-col space-y-2'>
           <div className='flex items-center justify-start text-sm font-light'>
-            <UilTemperature size={18} className='mr-1' />
+            <FaTemperatureThreeQuarters size={18} className='mr-1' />
             Real feel:
             <span className='ml-1 font-medium'>{ formatTemperature(weather.feels_like, units) }</span>
           </div>
 
           <div className='flex items-center justify-center text-sm font-light'>
-            <UilTear size={18} className='mr-1' />
+            <MdOutlineWaterDrop size={18} className='mr-1' />
             Humidity:
             <span className='ml-1 font-medium'>{ weather.humidity.toFixed() }%</span>
           </div>
 
           <div className='flex items-center justify-center text-sm font-light'>
-            <UilWind size={18} className='mr-1' />
+            <FaWind size={18} className='mr-1' />
             Wind:
             <span className='ml-1 font-medium'>{ weather.wind_speed.toFixed() } km/h</span>
           </div>
@@ -55,25 +59,25 @@ export default function TemperatureAndDetails({ weather, units }) {
       </div>
 
       <div className='flex flex-row items-center justify-center py-3 text-sm text-white space-x-[6px] mt-2'>
-        <UilSun />
+        <FiSunrise />
         <p className='font-light'>
           Rise: {''} <span className='ml-1 font-medium'> { weather.sunrise }</span>
         </p>
         <p className='font-light'>|</p>
 
-        <UilSunset />
+        <FiSunset />
         <p className='font-light'>
           Set: {''} <span className='ml-1 font-medium'>{ weather.sunset }</span>
         </p>
         <p className='font-light'>|</p>
 
-        <UilArrowUp />
+        <FaArrowUp />
         <p className='font-light'>
           High: <span className='ml-1 font-medium'>{ formatTemperature(weather.temp_max, units) }</span>
         </p>
         <p className='font-light'>|</p>
 
-        <UilArrowDown />
+        <FaArrowDown />
         <p className='font-light'>
           Low: <span className='ml-1 font-medium'>{ formatTemperature(weather.temp_min, units) }</span>
         </p>
@@ -83,3 +87,5 @@ export default function TemperatureAndDetails({ weather, units }) {
 
   );
 }
+
+export default TemperatureAndDetails;

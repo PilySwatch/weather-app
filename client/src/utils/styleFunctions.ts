@@ -1,17 +1,17 @@
 import { convertCelsiusToFahrenheit } from './helperFunctions';
+import { WeatherData, ChartDataHourly, ChartDataDaily } from '../Types';
 
-const formatBackground = (weather) => {
+type WeatherDataSubset = Pick<WeatherData, 'weather_description' | 'local_time' | 'temperature'>;
+
+const formatBackground = (weather: WeatherDataSubset | null | undefined): string => {
   if (!weather) return 'bg-gradient-to-b';
 
   const description = weather.weather_description;
   const localTime = weather.local_time;
 
   // Extract hours and minutes from localTime
-  // Parse the time string into a Date object
   const timeParts = localTime.split(' ');
-  
   const timeString = timeParts[5]; // "6:00 PM"
-
   const ampm = timeParts[6]; // "PM"
 
   let hours = parseInt(timeString.split(':')[0], 10);
@@ -26,11 +26,11 @@ const formatBackground = (weather) => {
 
   const currentDate = new Date();
   currentDate.setHours(hours);
-  currentDate.setMinutes(minutes)
+  currentDate.setMinutes(minutes);
 
   // Determine if it's daytime or nighttime
   const currentHour = currentDate.getHours();
-  
+
   if (currentHour >= 6 && currentHour < 20) { // Daytime (6:00 AM to 5:59 PM)
     if (description.includes('clear')) {
         return 'bg-day-clear';
@@ -82,8 +82,7 @@ const formatBackground = (weather) => {
   }
 };
 
-
-const formatAreaFill = (data, units) => {
+const formatAreaFill = (data: ChartDataHourly[] | ChartDataDaily[] | null | undefined, units: 'metric' | 'imperial'): string => {
     if (!data || data.length === 0) return 'rgba(255, 255, 255, 0.4)';
     const threshold = units === 'metric' ? 19 : 66;
     const temperatures = data.map(d => units === 'metric' ? d.temp : convertCelsiusToFahrenheit(d.temp));
@@ -92,7 +91,7 @@ const formatAreaFill = (data, units) => {
     return 'rgba(255, 204, 128, 0.4)';
 };
 
-const formatAreaStroke = (data, units) => {
+const formatAreaStroke = (data: ChartDataHourly[] | ChartDataDaily[] | null | undefined, units: 'metric' | 'imperial'): string => {
     if (!data || data.length === 0) return 'rgba(255, 255, 255, 1)';
     const threshold = units === 'metric' ? 19 : 66;
     const temperatures = data.map(d => units === 'metric' ? d.temp : convertCelsiusToFahrenheit(d.temp));

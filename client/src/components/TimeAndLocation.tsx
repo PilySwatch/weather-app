@@ -1,4 +1,10 @@
-export default function TimeAndLocation({weather}) {
+import { WeatherData } from '../Types';
+
+interface TimeAndLocationProps {
+  weather: WeatherData ;
+}
+
+const TimeAndLocation: React.FC<TimeAndLocationProps> = ({ weather }) => {
 
   return (
     <div>
@@ -18,3 +24,5 @@ export default function TimeAndLocation({weather}) {
 
   );
 }
+
+export default TimeAndLocation;
