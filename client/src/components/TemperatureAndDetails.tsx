@@ -38,20 +38,20 @@ const TemperatureAndDetails: React.FC<TemperatureAndDetailsProps> = ({ weather, 
         <p className='text-5xl'>{ formatTemperature(weather.temperature, units ) }</p>
 
         <div className='flex flex-col space-y-2'>
-          <div className='flex items-center justify-start text-sm font-light'>
+          <div className='flex items-center justify-start space-x-2 text-sm font-light'>
             <FaTemperatureThreeQuarters size={18} className='mr-1' />
             Real feel:
-            <span className='ml-1 font-medium'>{ formatTemperature(weather.feels_like, units) }</span>
+            <span className='font-medium'>{ formatTemperature(weather.feels_like, units) }</span>
           </div>
 
-          <div className='flex items-center justify-center text-sm font-light'>
-            <MdOutlineWaterDrop size={18} className='mr-1' />
+          <div className='flex items-center justify-start space-x-2 text-sm font-light'>
+            <MdOutlineWaterDrop size={18} className='mr-1 ml-0.5' />
             Humidity:
             <span className='ml-1 font-medium'>{ weather.humidity.toFixed() }%</span>
           </div>
 
-          <div className='flex items-center justify-center text-sm font-light'>
-            <FaWind size={18} className='mr-1' />
+          <div className='flex items-center justify-between space-x-2 text-sm font-light'>
+            <FaWind size={18} className='mx-1' />
             Wind:
             <span className='ml-1 font-medium'>{ weather.wind_speed.toFixed() } km/h</span>
           </div>

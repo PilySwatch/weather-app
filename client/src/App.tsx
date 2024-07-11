@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { getWeatherData, getPoetryData } from './services/api-service';
 import { formatBackground } from './utils/styleFunctions';
 
@@ -19,37 +19,38 @@ const App: React.FC = () => {
     const [poemData, setPoemData] = useState<PoemData | null>(null);
     const [loading, setLoading] = useState<boolean>(false);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const weatherData = await getWeatherData(city);
-                if (!weatherData) {
-                    throw new Error('City not found');
-                }
-                setWeather(weatherData);
+    
 
-                const weatherDescription = weatherData.weather_description; 
-                const words = weatherDescription.split(' ');
-                const keyword = words[1];
-
-                const poemDataResponse = await getPoetryData(keyword);
-                if (poemDataResponse) {
-                    setPoemData(poemDataResponse); 
-                } else {
-                    throw new Error('No poem data found');
-                }
-
-            } catch (error: any) {
-                console.error('Error fetching data:', error.message);
-            } finally {
-                setLoading(false); 
+    const fetchData = useCallback(async () => {
+        setLoading(true);
+        try {
+            const weatherData = await getWeatherData(city);
+            if (!weatherData) {
+                throw new Error('City not found');
             }
-        };
+            setWeather(weatherData);
 
+            const weatherDescription = weatherData.weather_description; 
+            const words = weatherDescription.split(' ');
+            const keyword = words[1];
+
+            const poemDataResponse = await getPoetryData(keyword);
+            if (poemDataResponse) {
+                setPoemData(poemDataResponse); 
+            } else {
+                throw new Error('No poem data found');
+            }
+
+        } catch (error: any) {
+            console.error('Error fetching data:', error.message);
+        } finally {
+            setLoading(false); 
+        }
+    }, [city]);
+
+    useEffect(() => {
         fetchData();
-
-    }, [city, units]);
+    }, [fetchData, units]);
 
     return (
         <div className={`min-h-screen flex items-center justify-center w-full ${formatBackground(weather)}`}>
