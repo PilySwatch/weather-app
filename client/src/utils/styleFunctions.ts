@@ -31,55 +31,59 @@ const formatBackground = (weather: WeatherDataSubset | null | undefined): string
   // Determine if it's daytime or nighttime
   const currentHour = currentDate.getHours();
 
-  if (currentHour >= 6 && currentHour < 20) { // Daytime (6:00 AM to 5:59 PM)
-    if (description.includes('clear')) {
-        return 'bg-day-clear';
-    } else if (description.includes('few clouds')) {
-        return 'bg-day-few-clouds';
-    } else if (description.includes('scattered clouds')) {
-        return 'bg-day-scattered-clouds';
-    } else if (description.includes('broken clouds')) {
-        return 'bg-day-broken-clouds';
-    } else if (description.includes('overcast clouds')) {
-        return 'bg-day-overcast-clouds';
-    } else if (description.includes('shower rain')) {
-        return 'bg-day-shower-rain';
-    } else if (description.includes('rain') || description.includes('drizzle')) {
-        return 'bg-day-rain';
-    } else if (description.includes('storm')) {
-        return 'bg-day-storm';
-    } else if (description.includes('mist')) {
-        return 'bg-day-mist';
-    } else if (description.includes('snow')) {
-        return 'bg-day-snow';
-    } else {
-        return 'bg-day-default';
+  const isDaytime = currentHour >= 6 && currentHour < 20;
+    switch (true) {
+        case isDaytime:
+            switch (true) {
+                case description.includes('clear'):
+                    return 'bg-day-clear';
+                case description.includes('few clouds'):
+                    return 'bg-day-few-clouds';
+                case description.includes('scattered clouds'):
+                    return 'bg-day-scattered-clouds';
+                case description.includes('broken clouds'):
+                    return 'bg-day-broken-clouds';
+                case description.includes('overcast clouds'):
+                    return 'bg-day-overcast-clouds';
+                case description.includes('shower rain'):
+                    return 'bg-day-shower-rain';
+                case description.includes('rain') || description.includes('drizzle'):
+                    return 'bg-day-rain';
+                case description.includes('storm'):
+                    return 'bg-day-storm';
+                case description.includes('mist'):
+                    return 'bg-day-mist';
+                case description.includes('snow'):
+                    return 'bg-day-snow';
+                default:
+                    return 'bg-day-default';
+            }
+        default:
+            switch (true) {
+                case description.includes('clear'):
+                    return 'bg-night-clear';
+                case description.includes('few clouds'):
+                    return 'bg-night-few-clouds';
+                case description.includes('scattered clouds'):
+                    return 'bg-night-scattered-clouds';
+                case description.includes('broken clouds'):
+                    return 'bg-night-broken-clouds';
+                case description.includes('overcast clouds'):
+                    return 'bg-night-overcast-clouds';
+                case description.includes('shower rain') || description.includes('drizzle'):
+                    return 'bg-night-shower-rain';
+                case description.includes('rain'):
+                    return 'bg-night-rain';
+                case description.includes('storm'):
+                    return 'bg-night-storm';
+                case description.includes('mist'):
+                    return 'bg-night-mist';
+                case description.includes('snow'):
+                    return 'bg-night-snow';
+                default:
+                    return 'bg-night-default';
+            }
     }
-  } else { // Nighttime (6:00 PM to 5:59 AM)
-      if (description.includes('clear')) {
-          return 'bg-night-clear';
-        } else if (description.includes('few clouds')) {
-            return 'bg-night-few-clouds';
-        } else if (description.includes('scattered clouds')) {
-            return 'bg-night-scattered-clouds';
-        } else if (description.includes('broken clouds')) {
-            return 'bg-night-broken-clouds';
-        } else if (description.includes('overcast clouds')) {
-            return 'bg-night-overcast-clouds';    
-        } else if (description.includes('shower rain') || description.includes('drizzle')) {
-            return 'bg-night-shower-rain';
-        } else if (description.includes('rain')) {
-            return 'bg-night-rain';
-        } else if (description.includes('storm')) {
-            return 'bg-night-storm';
-        } else if (description.includes('mist')) {
-            return 'bg-night-mist';
-        } else if (description.includes('snow')) {
-            return 'bg-night-snow';
-        } else {
-          return 'bg-night-default';
-      }
-  }
 };
 
 const formatAreaFill = (data: ChartDataHourly[] | ChartDataDaily[] | null | undefined, units: 'metric' | 'imperial'): string => {
